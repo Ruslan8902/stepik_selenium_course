@@ -1,5 +1,6 @@
 from .pages.main_page import MainPage
 from .pages.login_page import LoginPage
+from .pages.basket_page import BasketPage
 import pytest
 from selenium.webdriver.common.by import By
 import time
@@ -43,7 +44,14 @@ def test_should_be_login_url(browser):
     page.should_be_login_url()
 
 
-
+def test_guest_cant_see_product_in_basket_opened_from_main_page(browser):
+    link = "http://selenium1py.pythonanywhere.com"
+    page = LoginPage(browser, link)
+    page.open()
+    page.go_to_basket_page()
+    basket_page = BasketPage(browser, browser.current_url)
+    basket_page.should_not_be_items_in_basket()
+    basket_page.should_be_text_that_basket_is_empty()
 
 
 
